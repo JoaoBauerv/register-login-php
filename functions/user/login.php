@@ -2,10 +2,10 @@
 session_start();
 require_once(__DIR__ . '/../../banco.php');
 
-if (!empty($_POST)) {
+if (!empty($_SESSION)) {
     // Pegando os dados enviados pelo formulário
-    $usuario = $_POST['usuario'];
-    $senha = $_POST['senha'];
+    $usuario = $_SESSION['usuario'];
+    $senha = $_SESSION['senha'];
 
     // Preparar a query (protege contra SQL Injection)
     $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE usuario = :usuario");
@@ -16,7 +16,7 @@ if (!empty($_POST)) {
 
     // Verifica se o usuário existe e a senha está correta
     if ($user && password_verify($senha, $user['senha'])) {
-      $_SESSION['usuario'] = $_POST['usuario'];
+      $_SESSION['usuario'] = $_SESSION['usuario'];
       header("Location: ../../index.php?msgSucesso=Login realizado com sucesso!");
       exit;
 

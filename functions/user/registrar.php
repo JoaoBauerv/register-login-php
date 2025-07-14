@@ -35,7 +35,7 @@ try {
 
     if ($stmt->execute($dados)) {
         unset($_SESSION['nome'], $_SESSION['sobrenome'], $_SESSION['email'], $_SESSION['senha'], $_SESSION['foto']);
-        
+        session_destroy();
        header("Location: ../../index.php?msgSucesso=Cadastro realizado com sucesso!");
     } else {
         header("Location: ../../index.php?msgErro=Erro ao executar o cadastro.");

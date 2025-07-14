@@ -101,7 +101,7 @@ session_start();
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <button class="btn btn-outline-light w-100 text-start" type="button"
                                             data-bs-toggle="collapse" data-bs-target="#sidebarMenuLinks"
                                             aria-expanded="false" aria-controls="sidebarMenuLinks">
@@ -124,7 +124,7 @@ session_start();
                                             </li>
                                         </ul>
                                     </div>
-                                </li>
+                                </li> -->
                             </ul>
 
                         <div class="mt-auto">
