@@ -21,7 +21,9 @@ if (!empty($_SESSION)) {
       exit;
 
     } else {
-        echo "Usuário ou senha inválidos!";
+        session_destroy();
+        header("Location: ../../views/user/login.php?msgErro=Usuario ou senha errados!");
+        
     }
 }
 

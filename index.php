@@ -19,7 +19,7 @@
         <div class="card shadow-lg p-4 w-100">
             <main class="px-3 text-center">
                 <h1>SEJA BEM VINDO!</h1>
-                <p class="lead">Este é o site de inventário!</p>
+                <p class="lead">TESTE!</p>
                 <p class="lead">
                     <a href="#" class="btn btn-lg btn-light fw-bold border-white bg-white">Saiba mais</a>
                 </p>

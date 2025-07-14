@@ -1,6 +1,6 @@
 <!-- Sidebar -->
 <?php 
-require_once(__DIR__ . '/../../banco.php');
+
 function post_data($field){
   $_POST[$field] ??= '';
   
@@ -10,25 +10,17 @@ function post_data($field){
 define('REQUIRED_FIELD_ERROR', 'É necessario preencher esse campo!');
 $errors = [];
 
-$usuario = '';
+$user = '';
 $senha = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $usuario = post_data('usuario');
+  $user = post_data('usuario');
   $senha = post_data('senha');
 
   // Validações
-  if (!$usuario) {
+  if (!$user) {
     $errors['usuario'] = REQUIRED_FIELD_ERROR;
-  } elseif(strlen($usuario) > 1) {
-    $stmt = $pdo->prepare("SELECT usuario FROM tb_usuario WHERE usuario = :usuario");
-    $stmt->bindParam(':usuario', $usuario);
-    $stmt->execute();
-
-    if($stmt->rowCount() === 0){
-      $errors['usuario'] = 'Esse usuario não existe!';
-    }
-  }
+  } 
 
   if (!$senha) {
   $errors['senha'] = REQUIRED_FIELD_ERROR;
@@ -41,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (session_status() === PHP_SESSION_NONE) {
       session_start();
     }
-    $_SESSION['usuario'] = $usuario;
+    $_SESSION['usuario'] = $user;
     $_SESSION['senha'] = $senha;
 
     header('Location: /logintemplate/functions/user/login.php');
@@ -57,6 +49,14 @@ include '../../components/sidebar.php';
 
 <!-- Página escura de fundo -->
 <div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
+<div class="d-flex flex-column align-items-center gap-3" style="width: 100%; max-width: 500px;">
+
+  <div class="w-100">
+      <?php require_once '../../components/alert.php'; 
+      
+      ?>
+  </div>
+
   <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 400px;">
     <div class="text-center mb-4">
       <img src="logintemplate/images/logo.png" alt="Logo" style="max-height: 80px;" onerror="this.style.display='none'">
@@ -67,7 +67,7 @@ include '../../components/sidebar.php';
     <form action="" method="POST">
       <div class="mb-3">
         <label for="usuario" class="form-label text-white">Usuário</label>
-        <input type="text" class="form-control <?php echo isset($errors['usuario']) ? 'is-invalid' : '' ?>" id="usuario" name="usuario"  value="<?php echo $usuario ?>" >
+        <input type="text" class="form-control <?php echo isset($errors['usuario']) ? 'is-invalid' : '' ?>" id="usuario" name="usuario" value="<?php echo $user ?>" >
         <div class="invalid-feedback"> 
         <?php echo $errors['usuario'] ?>
         </div>

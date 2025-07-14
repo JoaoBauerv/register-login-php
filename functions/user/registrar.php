@@ -36,12 +36,12 @@ try {
     if ($stmt->execute($dados)) {
         unset($_SESSION['nome'], $_SESSION['sobrenome'], $_SESSION['email'], $_SESSION['senha'], $_SESSION['foto']);
         session_destroy();
-       header("Location: ../../index.php?msgSucesso=Cadastro realizado com sucesso!");
+       header("Location: ../../views/user/login.php?msgSucesso=Cadastro realizado com sucesso! Realize o login agora!");
     } else {
-        header("Location: ../../index.php?msgErro=Erro ao executar o cadastro.");
+        header("Location: ../../views/user/register.php?msgErro=Erro ao executar o cadastro.");
     }
 } catch (PDOException $e) {
-   header("Location: ../../index.php?msgErro=Erro de banco de dados.");
+   header("Location: ../../views/user/register.php?msgErro=Erro de banco de dados.");
     
 
 }
