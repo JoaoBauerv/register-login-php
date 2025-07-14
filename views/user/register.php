@@ -118,7 +118,7 @@ include '../../components/sidebar.php';
 <div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
   <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 400px;">
     <div class="text-center mb-4">
-      <img src="/caminho/para/logo.png" alt="Logo" style="max-height: 80px;" onerror="this.style.display='none'">
+      <img src="../../images/logo.jpg" alt="" style="max-height: 80px;" class="rounded-circle me-2">
       <h3 class="mt-2 text-white">Registrar-se</h3>
     </div>
 

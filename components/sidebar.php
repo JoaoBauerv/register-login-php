@@ -93,7 +93,9 @@ session_start();
 
                     <div class="d-flex">
                     <div class="sidebar d-flex flex-column p-3 text-white bg-dark" style="width: 250px; height: 100vh;">
+
                         <h5>LOGIN TEMPLATE</h5>
+                        
                             <ul class="nav nav-pills flex-column mb-auto p-3 bg-dark text-white rounded shadow">
                                 <li class="nav-item mb-2">
                                     <a href="/logintemplate/index.php" class="nav-link active text-white bg-primary">
@@ -127,10 +129,10 @@ session_start();
                                 </li> -->
                             </ul>
 
-                        <div class="mt-auto">
+                        <div class="ms-3">
 
                         <?php if (!empty($_SESSION['usuario'])){ ?>
-                            <div class="dropdown">
+                            <div class="dropdown ">
 
                                     <?php
                                         $usuario = $_SESSION['usuario'];
@@ -152,11 +154,14 @@ session_start();
                                     
                                     ?>
 
-                                    <a href=""
-                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+
+                                <a href=""
+                                    class="d-inline-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                                    data-bs-toggle="dropdown">
                                     <img src="<?php echo $foto_usuario; ?>" alt="" width="32" height="32" class="rounded-circle me-2">
                                     <strong><?php echo htmlspecialchars($dados_usuario['nome']); ?></strong>
-                                    </a>
+                                </a>
+
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                                 <?php if (!empty($dados_usuario['admin'])){ ?>    
                                     <li>
@@ -177,10 +182,11 @@ session_start();
                                     </li>
                                 </ul>
                             </div>
+
                         <?php }else{ ?>
                             <div class="text-center">
-                                <a href="/logintemplate/views/user/login.php" class="btn btn-primary btn-sm me-2">Login</a>
-                                <a href="/logintemplate/views/user/register.php" class="btn btn-warning btn-sm me-2">Registrar-se</a>
+                                <a href="/logintemplate/views/user/login.php" class="btn btn-primary btn-m me-2">Login</a>
+                                <a href="/logintemplate/views/user/register.php" class="btn btn-warning btn-m me-2">Registrar-se</a>
                             </div>
                         <?php }; ?>
                         

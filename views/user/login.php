@@ -50,6 +50,9 @@ include '../../components/sidebar.php';
 <!-- Página escura de fundo -->
 <div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
 <div class="d-flex flex-column align-items-center gap-3" style="width: 100%; max-width: 500px;">
+          
+
+
 
   <div class="w-100">
       <?php require_once '../../components/alert.php'; 
@@ -58,10 +61,10 @@ include '../../components/sidebar.php';
   </div>
 
   <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 400px;">
+    
     <div class="text-center mb-4">
-      <img src="logintemplate/images/logo.png" alt="Logo" style="max-height: 80px;" onerror="this.style.display='none'">
+      <img src="../../images/logo.jpg" alt="" style="max-height: 80px;" class="rounded-circle me-2">
       <h3 class="mt-2 text-white">Login</h3>
-
     </div>
 
     <form action="" method="POST">

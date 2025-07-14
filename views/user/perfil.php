@@ -30,7 +30,7 @@ include '../../components/sidebar.php';
             <div class="alert alert-danger">Usuário não encontrado.</div>
         <?php endif; ?>
         <div class="mt-4 d-grid gap-2">
-            <a href="/logout.php" class="btn btn-danger">Sair</a>
+            <a href="/logintemplate/functions/user/logout.php" class="btn btn-danger">Sair</a>
         </div>
     </div>
 </div>
