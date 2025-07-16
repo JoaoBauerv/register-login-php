@@ -16,6 +16,23 @@ session_start();
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     
+    
+    <!-- filepond -->
+<!-- CSS FilePond + Preview -->
+<link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet" />
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css" rel="stylesheet" />
+
+<!-- JS FilePond + Plugins -->
+<script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.min.js"></script>
+
+
     <style> 
         .sidebar {
         height: 100vh; 
@@ -74,6 +91,34 @@ session_start();
             border-radius: 10px !important;
         }
 
+        /*
+        * FilePond Custom Styles
+        */
+
+            .filepond--drop-label {
+                color: #4c4e53;
+            }
+
+            .filepond--label-action {
+                text-decoration-color: #babdc0;
+            }
+
+            .filepond--panel-root {
+                background-color: #edf0f4;
+            }
+
+
+            /**
+            * Page Styles
+            */
+
+
+            .filepond--root {
+            
+            max-width: 170px;
+            font-size: 12px;
+            flex: auto;
+            }
 
 
     </style>

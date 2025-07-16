@@ -165,13 +165,40 @@ include '../../components/sidebar.php';
 
         <div class="mb-3">
             <label for="file" class="form-label text-white">Escolha uma foto de perfil</label>
-            <input type="file" id="file" name="arquivos[]" multiple class="form-control" /><br>
+            <input type="file" id="file" name="arquivos[]" class="filepond " accept="image/*" /><br>
             <?php if (isset($errors['arquivo'])): ?>
                 <div class="invalid-feedback d-block text-danger">
                   <?php echo $errors['arquivo']; ?>
                 </div>
             <?php endif; ?>
         </div>
+
+          <script>
+            FilePond.registerPlugin(
+              FilePondPluginFileEncode,
+              FilePondPluginFileValidateType,
+              FilePondPluginImageExifOrientation,
+              FilePondPluginImagePreview,
+              FilePondPluginImageCrop,
+              FilePondPluginImageResize,
+              FilePondPluginImageTransform
+            );
+
+            // Cria a instância FilePond no input
+            const pond = FilePond.create(document.querySelector('input[type="file"].filepond'), {
+              labelIdle: 'Arraste e solte a imagem ou <span class="filepond--label-action">Navegue</span>',
+              acceptedFileTypes: ['image/*'],
+              allowImagePreview: true,
+              imagePreviewHeight: 100,
+              imageCropAspectRatio: '1:1',
+              imageResizeTargetWidth: 100,
+              imageResizeTargetHeight: 100,
+              stylePanelLayout: 'compact circle',
+              styleLoadIndicatorPosition: 'center bottom',
+              styleButtonRemoveItemPosition: 'center bottom',
+              storeAsFile: true // importante se você está usando FormData manual
+            });
+          </script>
 
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-warning">Cadastrar</button>
