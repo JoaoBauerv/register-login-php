@@ -1,10 +1,10 @@
 <?php
 require_once(__DIR__ . '/../../banco.php');
 session_start();
-
+require_once(__DIR__ . '/../funcoes.php');
 //var_dump($_SESSION);
 
-$nomeCompleto = $_SESSION['nome_completo'] ?? '';
+$nomeCompleto = ucwords(strtolower($_SESSION['nome_completo'] ?? ''));
 $usuario = $_SESSION['usuario'] ?? '';
 $email = $_SESSION['email'] ?? '';
 $senha = $_SESSION['senha'] ?? '';

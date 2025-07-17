@@ -1,6 +1,8 @@
 <!-- Sidebar -->
 <?php 
 
+require __DIR__ . '/../../functions/funcoes.php';
+
 function post_data($field){
   $_POST[$field] ??= '';
   
@@ -67,9 +69,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   // Gera o nome de usuário
   if (count($partes) > 1) {
-    $usuario = $partes[0] . '-' . $partes[count($partes) - 1];
+    $usuario = removerAcentos($partes[0]) . '-' . removerAcentos($partes[count($partes) - 1]);
   } else {
-    $usuario = $nomeCompleto;
+    $usuario = removerAcentos($nomeCompleto);
   }
   }
 
@@ -163,7 +165,7 @@ include '../../components/sidebar.php';
             </div>
         </div>
 
-        <div class="mb-3">
+        <div class="mb-3 centralizar-filepond">
             <label for="file" class="form-label text-white">Escolha uma foto de perfil</label>
             <input type="file" id="file" name="arquivos[]" class="filepond " accept="image/*" /><br>
             <?php if (isset($errors['arquivo'])): ?>

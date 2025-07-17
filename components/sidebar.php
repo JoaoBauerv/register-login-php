@@ -109,17 +109,18 @@ session_start();
 
 
             /**
-            * Page Styles
+            * circulo da foto no registrar
             */
-
-
             .filepond--root {
-            
             max-width: 170px;
             font-size: 12px;
             flex: auto;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            margin-bottom: 0%;
             }
-
+            
 
     </style>
 
