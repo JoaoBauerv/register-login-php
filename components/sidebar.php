@@ -112,7 +112,7 @@ session_start();
             * circulo da foto no registrar
             */
             .filepond--root {
-            max-width: 170px;
+            max-width: 100px;
             font-size: 12px;
             flex: auto;
             margin-left: auto;
