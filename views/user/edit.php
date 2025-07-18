@@ -3,23 +3,24 @@
 
 require __DIR__ . '/../../functions/funcoes.php';
 
+
+
+               
 function post_data($field){
   $_POST[$field] ??= '';
   
   return htmlspecialchars(stripslashes($_POST[$field]));
 }
 
-date_default_timezone_set('America/Sao_Paulo');
-
 define('REQUIRED_FIELD_ERROR', 'É necessario preencher esse campo!');
 $errors = [];
-$admin = '';
+
 $nome = '';
 $sobrenome = '';
 $email = '';
 $senha = '';
 $senha2 = '';
-$data = '';
+
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -28,12 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $email = post_data('email');
   $senha = post_data('senha');
   $senha2 = post_data('senha2');
-  $data = post_data('data');
-  $admin = post_data('admin'); 
-  
-  $data = DateTime::createFromFormat('Y-m-d', $data);
-  $hoje = new DateTime(date('Y-m-d'));
-
 
   // Validações
   if (!$nome) {
@@ -46,16 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors['sobrenome'] = REQUIRED_FIELD_ERROR;
   } elseif (strlen($sobrenome) < 3 || strlen($sobrenome) > 16) {
     $errors['sobrenome'] = 'O sobrenome precisa ser entre 3 e 16 caracteres!';
-  }
-
-  if (!$data) {
-      $errors['data'] = REQUIRED_FIELD_ERROR;
-  } elseif ($data > $hoje) {
-      $errors['data'] = 'Data de nascimento inválida';
-  } elseif ($data->diff($hoje)->y < 18) {
-      $errors['data'] = 'É necessário ter no mínimo 18 anos';
-  }else{
-    $data = post_data('data');
   }
 
   if (!$email) {
@@ -93,7 +78,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
   }
 
-  
+
+
   // Se não houver erros, redireciona para o registrar.php
   if (empty($errors)) {
 
@@ -114,37 +100,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if (empty($admin)) {
+    if (session_status() === PHP_SESSION_NONE) {
       session_start();
-    
+    }
     $_SESSION['nome_completo'] = $nomeCompleto;
     $_SESSION['usuario'] = $usuario;
     $_SESSION['email'] = $email;
     $_SESSION['senha'] = $senha;
     $_SESSION['foto_nome'] = $file_name ;
-    $_SESSION['data'] = $data;
+
     header('Location: /logintemplate/functions/user/registrar.php');
     exit;
-
-    }elseif(!empty($admin)){  ?>
-
-    <form  id="registroForm" action="/logintemplate/functions/user/registrar.php" method="POST">
-    <input type="hidden" name="admin" id="admin" value="<?php echo htmlspecialchars($admin); ?>">
-    <input type="hidden" name="nome_completo" value="<?php echo htmlspecialchars($nomeCompleto); ?>">
-    <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($usuario); ?>">
-    <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
-    <input type="hidden" name="senha" value="<?php echo htmlspecialchars($senha); ?>">
-    <input type="hidden" name="foto_nome" value="<?php echo htmlspecialchars($file_name); ?>">
-    <input type="hidden" name="data" value="<?php echo htmlspecialchars($data); ?>">
-    </form>
-    
-    <script>
-      document.getElementById('registroForm').submit();
-    </script>
-
-    <?php
-    }
-
   }
 
   
@@ -152,76 +118,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include '../../components/sidebar.php';
 
+$sql = "SELECT * FROM tb_usuario where id_usuario = '".$_REQUEST['id']."'";
 
-//$admin = $dados_usuario['admin'];
-
+$stmt = $pdo->prepare("SELECT * FROM tb_usuario where id_usuario = '".$_REQUEST['id']."'");
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
+
+
+
 
 <!-- Página escura de fundo -->
 <div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
-  <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 800px;">
-    <div class="text-center mb-4">
-      <img src="../../images/logo.jpg" alt="" style="max-height: 80px;" class="rounded-circle me-2">
-      <h3 class="mt-2 text-white">Registrar-se</h3>
-      
-    </div>
+  <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 400px;">
 
+    <ul class="nav nav-tabs" id="myTab" role="tablist" style="color:white;">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Dados Pessoais</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Documentos</button>
+      </li>
+    </ul>
+
+<br>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
     <form action="" method="POST" enctype="multipart/form-data">
-      
-      <div class="row">
-        <div class="col mb-3">
+        <div class="mb-3">
             <label for="nome" class="form-label text-white">Nome</label>
-            <input type="text" class="form-control <?php echo isset($errors['nome']) ? 'is-invalid' : '' ?>" id="nome" name="nome"  value="<?php echo $nome ?>" >
+            <input type="text" class="form-control <?php echo isset($errors['nome']) ? 'is-invalid' : '' ?>" id="nome" name="nome"  value="<?php echo $row['nome'] ?>" >
             <div class="invalid-feedback"> 
               <?php echo $errors['nome'] ?>
             </div>
         </div>
 
-        <div class="col mb-3">
-            <label for="sobrenome" class="form-label text-white">Sobrenome</label>
-            <input type="text" class="form-control <?php echo isset($errors['sobrenome']) ? 'is-invalid' : '' ?>" id="sobrenome" name="sobrenome"  value="<?php echo $sobrenome ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['sobrenome'] ?>
-            </div>
-        </div>
-      </div>
-
         <div class="mb-3">
             <label for="email" class="form-label text-white">Email</label>
-            <input type="email" class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>" id="email" name="email" value="<?php echo $email ?>"  >
+            <input type="email" class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>" id="email" name="email" value="<?php echo $row['email'] ?>"  >
             <div class="invalid-feedback"> 
               <?php echo $errors['email'] ?>
             </div>
         </div>
 
-        <div class="mb-3">
-            <label for="data" class="form-label text-white">Data Nascimento</label>
-            <input type="date" class="form-control <?php echo isset($errors['data']) ? 'is-invalid' : '' ?>" id="data" name="data" value=""  >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['data'] ?>
-            </div>
-        </div>
 
-      <div class="row">
-        <div class="col mb-3">
-            <label for="senha" class="form-label text-white">Senha</label>
-            <input type="password" class="form-control <?php echo isset($errors['senha']) ? 'is-invalid' : '' ?> " id="senha" name="senha" value="<?php echo $senha ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['senha'] ?>
-            </div>
-        </div>
-
-        <div class="col mb-3">
-            <label for="senha2" class="form-label text-white">Confirma senha</label>
-            <input type="password" class="form-control <?php echo isset($errors['senha2']) ? 'is-invalid' : '' ?>" id="senha2" name="senha2" value="<?php echo $senha2 ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['senha2'] ?>
-            </div>
-        </div>
-      </div>
-
-        <div class="mb-3 centralizar-filepond" style="text-align: center;">
-            <label for="file" class="form-label text-white"> Escolha uma foto de perfil</label>
+        <div class="mb-3 centralizar-filepond">
+            <label for="file" class="form-label text-white">Escolha uma foto de perfil</label>
             <input type="file" id="file" name="arquivos[]" class="filepond " accept="image/*" /><br>
             <?php if (isset($errors['arquivo'])): ?>
                 <div class="invalid-feedback d-block text-danger">
@@ -256,17 +199,62 @@ include '../../components/sidebar.php';
               storeAsFile: true // importante se você está usando FormData manual
             });
           </script>
-          <?php
-          if(!empty($dados_usuario['admin'])){
-          ?>
-          <input type="hidden" name="admin" id="admin" value="1">
-        <?php
-          }
-        ?>   
-        
+
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-warning">Cadastrar</button>
         </div>
     </form>
+</div>
+
+<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...
+
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="cpf" class="form-label text-white">CPF</label>
+            <input type="text" class="form-control <?php echo isset($errors['nome']) ? 'is-invalid' : '' ?>" id="cpf" name="cpf"  value="<?php echo $cpf ?>" >
+            <div class="invalid-feedback"> 
+              <?php echo $errors['cpf'] ?>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="RG" class="form-label text-white">RG</label>
+            <input type="text" class="form-control <?php echo isset($errors['RG']) ? 'is-invalid' : '' ?>" id="RG" name="RG"  value="<?php echo $RG ?>" >
+            <div class="invalid-feedback"> 
+              <?php echo $errors['RG'] ?>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="CNH" class="form-label text-white">CNH</label>
+            <input type="text" class="form-control <?php echo isset($errors['CNH']) ? 'is-invalid' : '' ?>" id="CNH" name="CNH"  value="<?php echo $CNH ?>" >
+            <div class="invalid-feedback"> 
+              <?php echo $errors['CNH'] ?>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-warning">Cadastrar</button>
+        </div>
+    </form>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
   </div>
 </div>
