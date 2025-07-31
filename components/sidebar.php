@@ -140,7 +140,7 @@ session_start();
                     <div class="d-flex">
                     <div class="sidebar d-flex flex-column p-3 text-white bg-dark" style="width: 250px; height: 100vh;">
 
-                        <h5>LOGIN TEMPLATE</h5>
+                        <h5><?=$_ENV['APP_NAME']?></h5>
                         
                             <ul class="nav nav-pills flex-column mb-auto p-3 bg-dark text-white rounded shadow">
                                 <li class="nav-item mb-2">
