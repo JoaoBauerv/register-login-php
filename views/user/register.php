@@ -107,55 +107,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $destino = 'C:/xampp/htdocs/logintemplate/images/user/' . $url ;
 
       if (move_uploaded_file($tmp_name, $destino)) {
-          $_SESSION['foto_nome'] = $url;
+          $_REQUEST['foto_nome'] = $url;
       } else {
-          $_SESSION['foto_nome'] = null;
+          $_REQUEST['foto_nome'] = null;
       }
-    }
-
-
-    if (empty($admin)) {
-      session_start();
     
-    $_SESSION['nome_completo'] = $nomeCompleto;
-    $_SESSION['usuario'] = $usuario;
-    $_SESSION['email'] = $email;
-    $_SESSION['senha'] = $senha;
-    $_SESSION['foto_nome'] = $file_name ;
-    $_SESSION['data'] = $data;
-    header('Location: /logintemplate/functions/user/registrar.php');
+
+    
+    $dados = [
+      'nome_completo' => $nomeCompleto,
+      'usuario' => $usuario,
+      'email' => $email,
+      'senha' => $senha,
+      'foto_nome' => $file_name,
+      'data' => $data,
+      'admin' => $admin
+    ];
+
+    $query = http_build_query($dados);
+    header('Location: /logintemplate/functions/user/registrar.php?' . $query);
     exit;
-
-    }elseif(!empty($admin)){  ?>
-
-    <form  id="registroForm" action="/logintemplate/functions/user/registrar.php" method="POST">
-    <input type="hidden" name="admin" id="admin" value="<?php echo htmlspecialchars($admin); ?>">
-    <input type="hidden" name="nome_completo" value="<?php echo htmlspecialchars($nomeCompleto); ?>">
-    <input type="hidden" name="usuario" value="<?php echo htmlspecialchars($usuario); ?>">
-    <input type="hidden" name="email" value="<?php echo htmlspecialchars($email); ?>">
-    <input type="hidden" name="senha" value="<?php echo htmlspecialchars($senha); ?>">
-    <input type="hidden" name="foto_nome" value="<?php echo htmlspecialchars($file_name); ?>">
-    <input type="hidden" name="data" value="<?php echo htmlspecialchars($data); ?>">
-    </form>
-    
-    <script>
-      document.getElementById('registroForm').submit();
-    </script>
-
-    <?php
-    }
-
-  }
+  
 
   
+    }
+  }
 }
-
 include '../../components/sidebar.php';
 
 
 //$admin = $dados_usuario['admin'];
 
 ?>
+
 
 <!-- Página escura de fundo -->
 <div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
@@ -257,9 +241,10 @@ include '../../components/sidebar.php';
             });
           </script>
           <?php
+          
           if(!empty($dados_usuario['admin'])){
           ?>
-          <input type="hidden" name="admin" id="admin" value="1">
+          <input type="hidden" name="admin" id="admin" value=<?= $dados_usuario['id_usuario']; ?>>
         <?php
           }
         ?>   

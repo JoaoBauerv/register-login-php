@@ -1,6 +1,7 @@
-<?php include __DIR__ . '/components/sidebar.php'; 
+<?php 
+date_default_timezone_set('America/Sao_Paulo');
+include __DIR__ . '/components/sidebar.php'; 
       
-
 // var_dump($_SESSION['usuario']);
       
 ?>

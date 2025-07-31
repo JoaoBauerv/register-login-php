@@ -15,9 +15,15 @@ if(!empty($dados_usuario['admin'])){
     <a href="/logintemplate/views/user/register.php" class="btn btn-success">Cadastrar Usuario</a>
   </div>
 
+  <div class="w-100">
+            <?php require_once '../../components/alert.php'; 
+            
+            ?>
+        </div>
+
   <div class="table-responsive">
     <?php
-      $stmt = $pdo->prepare("SELECT * FROM tb_usuario ORDER BY id_usuario;");
+      $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE status = 1 ORDER BY id_usuario ;");
       $stmt->execute();
       $rowCount = $stmt->rowCount();
 
@@ -35,8 +41,8 @@ if(!empty($dados_usuario['admin'])){
               echo "<td>" . htmlspecialchars($row["nome"]) . "</td>";
               echo "<td>";
               echo '<a href="/logintemplate/views/user/edit.php?id=' . $row["id_usuario"] . '" class="btn btn-warning btn-sm me-2">Editar</a>';
-              echo '<a href="/logintemplate/views/user/resetarsenha.php?id=' . $row["id_usuario"] . '" class="btn btn-primary btn-sm me-2">Resetar Senha</a>';
-              echo '<form action="/Logintemplate/functions/carro/deletar.php?id=' . $row["id_usuario"] . '" method="post" class="d-inline">';
+              echo '<a href="/logintemplate/functions/user/resetarsenha.php?id=' . $row["id_usuario"] . '" class="btn btn-primary btn-sm me-2">Resetar Senha</a>';
+              echo '<form action="/logintemplate/functions/user/deletar.php?id=' . $row["id_usuario"] . '" method="post" class="d-inline">';
               echo '<button type="submit" class="btn btn-danger btn-sm">Excluir</button>';
               echo '</form>';
               echo "</td>";

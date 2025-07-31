@@ -2,32 +2,21 @@
 require_once(__DIR__ . '/../../banco.php');
 session_start();
 require_once(__DIR__ . '/../funcoes.php');
-// var_dump($_POST);
+
+var_dump($_REQUEST);
 // echo '<br>';
 // var_dump($_SESSION);
-// exit;
 
 
-if(empty($_POST['admin'])){
-$nomeCompleto = ucwords(strtolower($_SESSION['nome_completo'] ?? ''));
-$usuario = $_SESSION['usuario'] ?? '';
-$email = $_SESSION['email'] ?? '';
-$senha = $_SESSION['senha'] ?? '';
-$foto = $_SESSION['foto_nome'] ?? '';
-$data = $_SESSION['data'] ?? '';
-}else {
 
-$nomeCompleto = ucwords(strtolower($_POST['nome_completo'] ?? ''));
-$usuario = $_POST['usuario'] ?? '';
-$email = $_POST['email'] ?? '';
-$senha = $_POST['senha'] ?? '';
-$foto = $_POST['foto_nome'] ?? '';
-$data = $_POST['data'] ?? '';
-
-
-}
-
-
+$nomeCompleto = ucwords(strtolower($_REQUEST['nome_completo'] ?? ''));
+$usuario = $_REQUEST['usuario'] ?? '';
+$email = $_REQUEST['email'] ?? '';
+$senha = $_REQUEST['senha'] ?? '';
+$foto = $_REQUEST['foto_nome'] ?? '';
+$data = $_REQUEST['data'] ?? '';
+$admin = $_REQUEST['admin'] ?? '';
+$permissao = $_REQUEST['permissao'] ?? 'usuario';
 
 
 
@@ -40,8 +29,8 @@ $url_arquivo = '/logintemplate/images/user/' . $nome_final_arquivo;
 
 // Grava no banco
 try {
-    $sql = "INSERT INTO tb_usuario (nome, email, senha, foto, usuario, data_nascimento) 
-            VALUES (:nome, :email, :senha, :foto, :usuario, :data)";
+    $sql = "INSERT INTO tb_usuario (nome, email, senha, foto, usuario, data_nascimento, permissao) 
+            VALUES (:nome, :email, :senha, :foto, :usuario, :data, :permissao)";
     $stmt = $pdo->prepare($sql);
 
     $dados = array(
@@ -50,20 +39,26 @@ try {
         ':senha' => password_hash($senha, PASSWORD_DEFAULT),
         ':foto' => $url_arquivo,
         ':usuario' => $usuario,
-        ':data' => $data
+        ':data' => $data,
+        ':permissao' => $permissao
     );
 
     // Verifica se foi enviado via POST (admin logado cadastrando outro)
-    $admin = $_POST['admin'] ?? null;
 
     if ($stmt->execute($dados)) {
         if (empty($admin)) {
             // Cadastro por usuário comum
-            unset($_SESSION['nome'], $_SESSION['sobrenome'], $_SESSION['email'], $_SESSION['senha'], $_SESSION['foto']);
-            session_destroy();
             header("Location: ../../views/user/login.php?msgSucesso=Cadastro realizado com sucesso! Realize o login agora!");
         } else {
             // Cadastro feito por admin logado
+            $sql = "SELECT * FROM tb_usuario ORDER BY id_usuario DESC LIMIT 1";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+            $id_cadastrado = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+        
+            registraMovimentacao($admin, $id_cadastrado['id_usuario'], 'Usuario criado por admin: ' . $admin, 'Cadastro Usuario', $pdo);
+
             header("Location: ../../index.php?msgSucesso=Cadastro realizado com sucesso!");
         }
     } else {
