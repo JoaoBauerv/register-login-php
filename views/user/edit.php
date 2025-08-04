@@ -1,260 +1,161 @@
-<!-- Sidebar -->
 <?php 
+include '../../components/sidebar.php'; 
 
-require __DIR__ . '/../../functions/funcoes.php';
+// Consulta os dados do usuário
+$sqlUsuario = "SELECT * FROM tb_usuario WHERE id_usuario = ?";
+$stmtUsuario = $pdo->prepare($sqlUsuario);
+$stmtUsuario->execute([$_REQUEST['id']]);
+$usuario = $stmtUsuario->fetch(PDO::FETCH_ASSOC);
 
+// Consulta endereço
+$sqlEndereco = "SELECT * FROM tb_endereco WHERE id_usuario = ?";
+$stmtEndereco = $pdo->prepare($sqlEndereco);
+$stmtEndereco->execute([$_REQUEST['id']]);
+$endereco = $stmtEndereco->fetch(PDO::FETCH_ASSOC);
 
+// Consulta documentos
+$sqlDocumento = "SELECT * FROM tb_documento WHERE id_usuario = ?";
+$stmtDocumento = $pdo->prepare($sqlDocumento);
+$stmtDocumento->execute([$_REQUEST['id']]);
+$documento = $stmtDocumento->fetch(PDO::FETCH_ASSOC);
 
-               
-function post_data($field){
-  $_POST[$field] ??= '';
-  
-  return htmlspecialchars(stripslashes($_POST[$field]));
+// Cálculo da idade
+$age = '';
+if (!empty($usuario['data_nascimento'])) {
+    $tz = new DateTimeZone('America/Sao_Paulo');
+    $age = DateTime::createFromFormat('Y-m-d', $usuario['data_nascimento'], $tz)
+        ->diff(new DateTime('now', $tz))
+        ->y;
 }
 
-define('REQUIRED_FIELD_ERROR', 'É necessario preencher esse campo!');
-$errors = [];
-
-$nome = '';
-$sobrenome = '';
-$email = '';
-$senha = '';
-$senha2 = '';
-
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $nome = post_data('nome');
-  $sobrenome = post_data('sobrenome');
-  $email = post_data('email');
-  $senha = post_data('senha');
-  $senha2 = post_data('senha2');
-
-  // Validações
-  if (!$nome) {
-    $errors['nome'] = REQUIRED_FIELD_ERROR;
-  } elseif (strlen($nome) < 3 || strlen($nome) > 16) {
-    $errors['nome'] = 'O nome precisa ser entre 3 e 16 caracteres!';
-  }
-
-  if (!$sobrenome) {
-    $errors['sobrenome'] = REQUIRED_FIELD_ERROR;
-  } elseif (strlen($sobrenome) < 3 || strlen($sobrenome) > 16) {
-    $errors['sobrenome'] = 'O sobrenome precisa ser entre 3 e 16 caracteres!';
-  }
-
-  if (!$email) {
-    $errors['email'] = REQUIRED_FIELD_ERROR;
-  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $errors['email'] = 'Esse campo precisa ser um email válido!';
-  }
-
-  if (!$senha) {
-    $errors['senha'] = REQUIRED_FIELD_ERROR;
-  } elseif (strlen($senha) < 4 || strlen($senha) > 10) {
-    $errors['senha'] = 'A senha precisa ser entre 4 e 10 caracteres!';
-  }
-
-  if (!$senha2) {
-    $errors['senha2'] = REQUIRED_FIELD_ERROR;
-  }
-
-  if ($senha && $senha2 && strcmp($senha, $senha2) !== 0) {
-    $errors['senha2'] = 'As senhas precisam ser iguais!';
-  }
-
-  if(!empty($nome) && !empty($sobrenome)){
-  // Pega o nome completo do POST
-  $nomeCompleto = trim($nome . ' ' . $sobrenome);
-
-  // Separa em partes pelo espaço
-  $partes = preg_split('/\s+/', $nomeCompleto);
-
-  // Gera o nome de usuário
-  if (count($partes) > 1) {
-    $usuario = removerAcentos($partes[0]) . '-' . removerAcentos($partes[count($partes) - 1]);
-  } else {
-    $usuario = removerAcentos($nomeCompleto);
-  }
-  }
-
-
-
-  // Se não houver erros, redireciona para o registrar.php
-  if (empty($errors)) {
-
-      //Armazena o arquivo 
-    if (isset($_FILES['arquivos']['name'][0])) {
-      $file_name = $_FILES['arquivos']['name'][0];
-      $tmp_name = $_FILES['arquivos']['tmp_name'][0];
-      
-      $url = $usuario . '_'  . $file_name;
-
-      $destino = 'C:/xampp/htdocs/logintemplate/images/user/' . $url ;
-
-      if (move_uploaded_file($tmp_name, $destino)) {
-          $_SESSION['foto_nome'] = $url;
-      } else {
-          $_SESSION['foto_nome'] = null;
-      }
-    }
-
-
-    if (session_status() === PHP_SESSION_NONE) {
-      session_start();
-    }
-    $_SESSION['nome_completo'] = $nomeCompleto;
-    $_SESSION['usuario'] = $usuario;
-    $_SESSION['email'] = $email;
-    $_SESSION['senha'] = $senha;
-    $_SESSION['foto_nome'] = $file_name ;
-
-    header('Location: /logintemplate/functions/user/registrar.php');
-    exit;
-  }
-
-  
-}
-
-include '../../components/sidebar.php';
-
-$sql = "SELECT * FROM tb_usuario where id_usuario = '".$_REQUEST['id']."'";
-
-$stmt = $pdo->prepare("SELECT * FROM tb_usuario where id_usuario = '".$_REQUEST['id']."'");
-$stmt->execute();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
+<div class="container-fluid p-5">
+    <h3 class="fw-bold text-uppercase mb-4"><?= htmlspecialchars($usuario['nome']) ?> <span class="fw-normal">:: Editar dados</span></h3>
+    
+            <?php require_once '../../components/alert.php'; 
+            
+            ?>
 
+    
+        <form method="POST" action="/logintemplate/functions/user/editar.php" enctype="multipart/form-data">
+        <input type="hidden" name="id_usuario" value="<?= $usuario['id_usuario'] ?>">
 
-
-<!-- Página escura de fundo -->
-<div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
-  <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 400px;">
-
-    <ul class="nav nav-tabs" id="myTab" role="tablist" style="color:white;">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Dados Pessoais</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Documentos</button>
-      </li>
-    </ul>
-
-<br>
-
-<div class="tab-content" id="myTabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
-    <form action="" method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="nome" class="form-label text-white">Nome</label>
-            <input type="text" class="form-control <?php echo isset($errors['nome']) ? 'is-invalid' : '' ?>" id="nome" name="nome"  value="<?php echo $row['nome'] ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['nome'] ?>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label text-white">Email</label>
-            <input type="email" class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>" id="email" name="email" value="<?php echo $row['email'] ?>"  >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['email'] ?>
-            </div>
-        </div>
-
-
-        <div class="mb-3 centralizar-filepond">
-            <label for="file" class="form-label text-white">Escolha uma foto de perfil</label>
-            <input type="file" id="file" name="arquivos[]" class="filepond " accept="image/*" /><br>
-            <?php if (isset($errors['arquivo'])): ?>
-                <div class="invalid-feedback d-block text-danger">
-                  <?php echo $errors['arquivo']; ?>
+        <div class="row g-4">
+            <!-- Foto -->
+            <div class="col-md-3 text-center">
+                <div class="border p-3 bg-light rounded">
+                    <img src="<?= $usuario['foto'] ?>" alt="Avatar" class="img-fluid rounded" onerror="this.style.display='none'">
+                    <div class="mt-2">
+                        <input type="file" name="foto" class="form-control mb-2">
+                        <button class="btn btn-outline-danger btn-sm w-100" type="submit" name="excluir_foto">Excluir foto</button>
+                    </div>
                 </div>
-            <?php endif; ?>
-        </div>
+            </div>
 
-          <script>
-            FilePond.registerPlugin(
-              FilePondPluginFileEncode,
-              FilePondPluginFileValidateType,
-              FilePondPluginImageExifOrientation,
-              FilePondPluginImagePreview,
-              FilePondPluginImageCrop,
-              FilePondPluginImageResize,
-              FilePondPluginImageTransform
-            );
+            <!-- Tabs -->
+            <div class="col-md-9">
+                <ul class="nav nav-tabs" id="meusDadosTabs" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#pessoais" type="button">Dados Pessoais</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#documentos" type="button">Documentos</button>
+                    </li>
+                </ul>
 
-            // Cria a instância FilePond no input
-            const pond = FilePond.create(document.querySelector('input[type="file"].filepond'), {
-              labelIdle: 'Arraste e solte a imagem ou <span class="filepond--label-action">Navegue</span>',
-              acceptedFileTypes: ['image/*'],
-              allowImagePreview: true,
-              imagePreviewHeight: 100,
-              imageCropAspectRatio: '1:1',
-              imageResizeTargetWidth: 100,
-              imageResizeTargetHeight: 100,
-              stylePanelLayout: 'compact circle',
-              styleLoadIndicatorPosition: 'center bottom',
-              styleButtonRemoveItemPosition: 'center bottom',
-              storeAsFile: true // importante se você está usando FormData manual
-            });
-          </script>
+                <div class="tab-content border border-top-0 p-4 bg-white">
+                    <!-- Dados pessoais -->
+                    <div class="tab-pane fade show active" id="pessoais">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nome</label>
+                                <input type="text" class="form-control" name="nome" value="<?= htmlspecialchars($usuario['nome']) ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($usuario['email']) ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Data nasc.</label>
+                                <input type="date" class="form-control" name="data_nascimento" value="<?= $usuario['data_nascimento'] ?>">
+                            </div>
 
-        <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-warning">Cadastrar</button>
+                            <div class="col-md-3">
+                            <label class="form-label">Data nasc.</label>
+                            <input type="text" class="form-control" value="<?= $age ?>" readonly>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <label class="form-label">Telefone</label>
+                                <input type="text" class="form-control" name="telefone" value="<?= htmlspecialchars($usuario['telefone'] ?? '') ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Celular</label>
+                                <input type="text" class="form-control" name="celular" value="<?= htmlspecialchars($usuario['celular'] ?? '') ?>">
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5>Endereço</h5>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">CEP</label>
+                                <input type="text" class="form-control" name="cep" value="<?= $endereco['cep'] ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Logradouro</label>
+                                <input type="text" class="form-control" name="logradouro" value="<?= $endereco['logradouro'] ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Número</label>
+                                <input type="text" class="form-control" name="numero" value="<?= $endereco['numero'] ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Complemento</label>
+                                <input type="text" class="form-control" name="complemento" value="<?= $endereco['complemento'] ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Cidade</label>
+                                <input type="text" class="form-control" name="cidade" value="<?= $endereco['cidade'] ?>">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Bairro</label>
+                                <input type="text" class="form-control" name="bairro" value="<?= $endereco['bairro'] ?>">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Referência</label>
+                                <input type="text" class="form-control" name="referencia" value="<?= $endereco['referencia'] ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documentos -->
+                    <div class="tab-pane fade" id="documentos">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">CPF</label>
+                                <input type="text" class="form-control" name="cpf" value="<?= $documento['cpf'] ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">RG</label>
+                                <input type="text" class="form-control" name="rg" value="<?= $documento['rg'] ?>">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">CNH</label>
+                                <input type="text" class="form-control" name="cnh" value="<?= $documento['cnh'] ?>">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="mt-4 d-flex justify-content-end">
+                    <a href="/logintemplate/views/user/admin.php" class="btn btn-secondary me-2">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+                </div>
+            </div>
         </div>
     </form>
-</div>
-
-<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">...
-
-    <form action="" method="POST" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="cpf" class="form-label text-white">CPF</label>
-            <input type="text" class="form-control <?php echo isset($errors['nome']) ? 'is-invalid' : '' ?>" id="cpf" name="cpf"  value="<?php echo $cpf ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['cpf'] ?>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="RG" class="form-label text-white">RG</label>
-            <input type="text" class="form-control <?php echo isset($errors['RG']) ? 'is-invalid' : '' ?>" id="RG" name="RG"  value="<?php echo $RG ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['RG'] ?>
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <label for="CNH" class="form-label text-white">CNH</label>
-            <input type="text" class="form-control <?php echo isset($errors['CNH']) ? 'is-invalid' : '' ?>" id="CNH" name="CNH"  value="<?php echo $CNH ?>" >
-            <div class="invalid-feedback"> 
-              <?php echo $errors['CNH'] ?>
-            </div>
-        </div>
-
-        <br>
-
-        <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-warning">Cadastrar</button>
-        </div>
-    </form>
-
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-</div>
-
-  </div>
 </div>
