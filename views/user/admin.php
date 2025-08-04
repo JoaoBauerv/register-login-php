@@ -10,7 +10,7 @@ if(!empty($dados_usuario['admin'])){
 ?>
 <!-- Conteúdo principal -->
 <div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center mb-4">
+  <div class="d-flex justify-content-between align-items-center mb-4" >
     <h1 class="fw-bold">PAINEL ADMIN</h1>
     <a href="/logintemplate/views/user/register.php" class="btn btn-success">Cadastrar Usuario</a>
   </div>
@@ -21,15 +21,15 @@ if(!empty($dados_usuario['admin'])){
             ?>
         </div>
 
-  <div class="table-responsive">
+  <div class="table-responsive " style="border-radius: 10px;">
     <?php
       $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE status = 1 ORDER BY id_usuario ;");
       $stmt->execute();
       $rowCount = $stmt->rowCount();
 
       if ($rowCount > 0) {
-          echo "<table class='table table-bordered table-striped'>";
-          echo "<thead class='table-dark'>";
+          echo '<table class="table table-bordered table-striped">';
+          echo "<thead class='table-dark' >";
           echo "<tr><th>Id</th><th>Usuario</th><th>Nome Usuario</th><th>Opções</th></tr>";
           echo "</thead>";
           echo "<tbody>";
