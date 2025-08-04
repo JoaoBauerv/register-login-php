@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__ . '/../../banco.php');
 session_start();
+require_once(__DIR__ . '/../../banco.php');
 require_once(__DIR__ . '/../funcoes.php');
 
 var_dump($_REQUEST);
@@ -46,20 +46,33 @@ try {
     // Verifica se foi enviado via POST (admin logado cadastrando outro)
 
     if ($stmt->execute($dados)) {
+        $sql = "SELECT * FROM tb_usuario ORDER BY id_usuario DESC LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $id_cadastrado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $sql = "INSERT INTO tb_documento (id_usuario) VALUES (:id_cadastrado)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
+        $stmt->execute();
+
+        
+        $sql = "INSERT INTO tb_endereco (id_usuario) VALUES (:id_cadastrado)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
+        $stmt->execute();
+
+        
         if (empty($admin)) {
             // Cadastro por usuário comum
             header("Location: ../../views/user/login.php?msgSucesso=Cadastro realizado com sucesso! Realize o login agora!");
         } else {
             // Cadastro feito por admin logado
-            $sql = "SELECT * FROM tb_usuario ORDER BY id_usuario DESC LIMIT 1";
-            $stmt = $pdo->prepare($sql);
-            $stmt->execute();
-            $id_cadastrado = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-        
+ 
+
             registraMovimentacao($admin, $id_cadastrado['id_usuario'], 'Usuario criado por admin: ' . $admin, 'Cadastro Usuario', $pdo);
 
-            header("Location: ../../index.php?msgSucesso=Cadastro realizado com sucesso!");
+            header("Location: ../../views/user/admin.php?msgSucesso=Cadastro realizado com sucesso!");
         }
     } else {
         header("Location: ../../views/user/register.php?msgErro=Erro ao executar o cadastro.");
