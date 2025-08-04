@@ -15,7 +15,8 @@ session_start();
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
     
     <!-- filepond -->
 <!-- CSS FilePond + Preview -->
@@ -201,11 +202,13 @@ session_start();
                                     ?>
 
 
-                                <a href=""
-                                    class="d-inline-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    data-bs-toggle="dropdown">
-                                    <img src="<?php echo $foto_usuario; ?>" alt="" width="32" height="32" class="rounded-circle me-2">
-                                    <strong><?php echo htmlspecialchars($dados_usuario['nome']); ?></strong>
+                                <a href="#" class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle"
+                                    data-bs-toggle="dropdown" style="max-width: 240px;">
+                                        <img src="<?php echo $foto_usuario; ?>" alt="Foto"
+                                            class="rounded-circle" width="32" height="32" style="object-fit: cover;">
+                                        <span class="fw-semibold text-truncate d-block" style="max-width: 180px;">
+                                            <?php echo htmlspecialchars($dados_usuario['nome']); ?>
+                                        </span>
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
@@ -241,13 +244,8 @@ session_start();
                     </div>
 
                     <div class="content d-flex justify-content-center" style="flex: 1;">
-                        
-                    
-                
-
-                
+                             
             
-    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
 </body>
