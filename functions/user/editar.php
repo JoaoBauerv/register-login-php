@@ -86,6 +86,7 @@ try {
     }
 
     $pdo->commit();
+    registraMovimentacao($_SESSION['id_usuario'], $id, 'Usuario editado por admin: ' . $_SESSION['id_usuario'], 'Usuario editado', $pdo);
 
     header("Location: /logintemplate/views/user/edit.php?id=$id&msgSucesso=Editado com sucesso!");
     exit;

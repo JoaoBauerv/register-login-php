@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $_SESSION['usuario'] = $user;
     $_SESSION['senha'] = $senha;
-
+    
     header('Location: /logintemplate/functions/user/login.php');
     exit;
   }

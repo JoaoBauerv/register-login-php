@@ -13,10 +13,14 @@ if (!empty($_SESSION)) {
     $stmt->execute();
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
+        
     // Verifica se o usuário existe e a senha está correta
     if ($user && password_verify($senha, $user['senha'])) {
       $_SESSION['usuario'] = $_SESSION['usuario'];
+      $_SESSION['id_usuario'] = $user['id_usuario'];
+      $_SESSION['admin'] = $user['admin'];
+      unset($_SESSION['senha']);
       header("Location: ../../index.php?msgSucesso=Login realizado com sucesso!");
       exit;
 
