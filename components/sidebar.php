@@ -147,9 +147,20 @@ session_start();
                             <ul class="nav nav-pills flex-column mb-auto">
                                 <li class="nav-item mb-2">
                                     <a href="/logintemplate/index.php" class="nav-link active text-white bg-primary rounded-3">
-                                        <i class="bi bi-house-door me-2"></i> Home
+                                        <i class="bi bi-house-door me-2"></i> Inicio
                                     </a>
                                 </li>
+
+                                <!-- <li class="nav-item mb-2">
+                                    <a href="/logintemplate/index.php" class="nav-link active text-white bg-secondary rounded-3">
+                                        <i class="bi bi-shop me-2"></i> Produtos
+                                    </a>
+                                </li>
+                                <li class="nav-item mb-2">
+                                    <a href="/logintemplate/index.php" class="nav-link active text-white bg-secondary rounded-3">
+                                        <i class="bi bi-list-columns-reverse me-2"></i> Relatórios
+                                    </a>
+                                </li> -->
     
                                 <!-- <li class="nav-item">
                                     <button class="btn btn-outline-light w-100 text-start" type="button"
@@ -212,7 +223,7 @@ session_start();
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-dark shadow-sm mt-2">
-                                    <?php if (!empty($dados_usuario['admin'])){ ?>    
+                                    <?php if ($dados_usuario['permissao'] == 'Admin'){ ?>    
                                         <li><a class="dropdown-item" href="/logintemplate/views/user/admin.php"><i class="bi bi-gear me-2"></i> Admin</a></li>
                                     <?php } ?> 
                                     <li><a class="dropdown-item" href="#"><i class="bi bi-sliders me-2"></i> Settings</a></li>
@@ -225,7 +236,7 @@ session_start();
                         <?php }else{ ?>
                             <div class="d-grid gap-2">
                                 <a href="/logintemplate/views/user/login.php" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
-                                <a href="/logintemplate/views/user/register.php" class="btn btn-warning btn-sm"><i class="bi bi-person-plus me-1"></i> Registrar-se</a>
+                                <!--a href="/logintemplate/views/user/register.php" class="btn btn-warning btn-sm"><i class="bi bi-person-plus me-1"></i> Registrar-se</!--a -->
                             </div>
                         <?php }; ?>
                         

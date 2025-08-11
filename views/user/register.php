@@ -140,7 +140,7 @@ include '../../components/sidebar.php';
 
 ?>
 
-
+<?php if ($dados_usuario['permissao']=== 'Admin'): ?>
 <!-- Página escura de fundo -->
 <div class="container-fluid  min-vh-100 d-flex justify-content-center align-items-center">
   <div class="card shadow-lg bg-dark p-4" style="width: 100%; max-width: 800px;">
@@ -242,12 +242,12 @@ include '../../components/sidebar.php';
           </script>
           <?php
           
-          if(!empty($dados_usuario['admin'])){
+          if($dados_usuario['permissao'] === 'Admin'){
           ?>
           <input type="hidden" name="admin" id="admin" value=<?= $dados_usuario['id_usuario']; ?>>
-        <?php
-          }
-        ?>   
+          <?php
+            }
+          ?>   
         
         <div class="d-grid gap-2">
             <button type="submit" class="btn btn-warning">Cadastrar</button>
@@ -255,3 +255,15 @@ include '../../components/sidebar.php';
     </form>
   </div>
 </div>
+
+<?php else: ?>
+  
+<!-- nao admin -->
+<div class="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
+  <div class="text-center bg-white p-5 shadow rounded" style="max-width: 500px;">
+    <h4 class="text-danger mb-3"><i class="bi bi-shield-lock-fill"></i> Acesso Negado</h4>
+    <p class="text-muted">Essa página não está disponível para o seu usuário.</p>
+    <a href="/logintemplate/index.php" class="btn btn-primary mt-3">Voltar</a>
+  </div>
+</div>
+<?php endif; ?>

@@ -16,6 +16,11 @@ include '../../components/sidebar.php';
                 </div> -->
 
             </div>
+            <div class="mt-3">
+                <span class="badge bg-primary fs-6 px-3 py-2 text-uppercase">
+                    <?= htmlspecialchars($dados_usuario['permissao']) ?>
+                </span>
+            </div>
         </div>
 
         <!-- Dados Pessoais -->
