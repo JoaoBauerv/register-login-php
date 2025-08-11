@@ -1,7 +1,7 @@
 
 <?php include '../../components/sidebar.php'; ?>
 
-<?php if (!empty($dados_usuario['admin'])): ?>
+<?php if ($dados_usuario['permissao']=== 'Admin'): ?>
 <div class="container py-5">
 
   
@@ -68,12 +68,12 @@
                    class="btn btn-sm btn-primary me-1" title="Resetar Senha">
                   <i class="bi bi-key"></i>
                 </a>
-                <form action="/logintemplate/functions/user/deletar.php?id=<?= $row["id_usuario"] ?>" 
+                <!-- <form action="/logintemplate/functions/user/deletar.php?id=<?= $row["id_usuario"] ?>" 
                       method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este usuário?')">
                   <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
                     <i class="bi bi-trash3"></i>
                   </button>
-                </form>
+                </form> -->
               </td>
             </tr>
             <?php endwhile; ?>

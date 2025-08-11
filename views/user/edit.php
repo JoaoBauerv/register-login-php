@@ -51,7 +51,39 @@ if (!empty($usuario['data_nascimento'])) {
                         <button class="btn btn-outline-danger btn-sm w-100" type="submit" name="excluir_foto">Excluir foto</button>
                     </div>
                 </div>
+
+                <!--Editar permissao do usuario -->
+                <div class="border p-3 bg-light rounded">
+                    <label class="form-label d-block mb-2">Permissão</label>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="permissao" id="permissaoAdmin" value="Admin" <?= ($usuario['permissao'] === 'Admin') ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="permissaoAdmin">Admininistrador</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="permissao" id="permissaoGerente" value="Gerente" <?= ($usuario['permissao'] === 'Gerente') ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="permissaoGerente">Gerente</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="permissao" id="permissaoUsuario" value="Usuario" <?= ($usuario['permissao'] === 'Usuario') ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="permissaoUsuario">Usuario</label>
+                    </div>
+                </div>
+                
+                <!-- Inativar ou ativar usuario -->
+                <div class="border p-3 bg-light rounded">
+                    <label class="form-label d-block mb-2">Status</label>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="status" id="statusAtivo" value="ativo" <?= ($usuario['status'] === 1) ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="statusAtivo">Ativo</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input type="radio" class="form-check-input" name="status" id="statusInativo" value="inativo" <?= ($usuario['status'] === 0) ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="statusInativo">Inativo</label>
+                    </div>
+                </div>
+            
             </div>
+
 
             <!-- Tabs -->
             <div class="col-md-9">

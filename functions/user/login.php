@@ -8,7 +8,7 @@ if (!empty($_SESSION)) {
     $senha = $_SESSION['senha'];
 
     // Preparar a query (protege contra SQL Injection)
-    $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE usuario = :usuario");
+    $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE usuario = :usuario AND status = 1");
     $stmt->bindParam(':usuario', $usuario);
     $stmt->execute();
 

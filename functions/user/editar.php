@@ -21,7 +21,9 @@ try {
         email = :email, 
         data_nascimento = :data_nascimento, 
         telefone = :telefone,
-        celular = :celular
+        celular = :celular,
+        status = :status,
+        permissao = :permissao
         WHERE id_usuario = :id";
     $stmtUsuario = $pdo->prepare($sqlUsuario);
     $stmtUsuario->execute([
@@ -30,6 +32,8 @@ try {
         ':data_nascimento' => $_POST['data_nascimento'],
         ':telefone' => $_POST['telefone'] ?? '',
         ':celular' => $_POST['celular'] ?? '',
+        ':status' => $_POST['status'],
+        ':permissao' => $_POST['permissao'], 
         ':id' => $id
     ]);
 

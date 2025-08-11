@@ -16,7 +16,7 @@ $senha = $_REQUEST['senha'] ?? '';
 $foto = $_REQUEST['foto_nome'] ?? '';
 $data = $_REQUEST['data'] ?? '';
 $admin = $_REQUEST['admin'] ?? '';
-$permissao = $_REQUEST['permissao'] ?? 'usuario';
+$permissao = $_REQUEST['permissao'] ?? 'Usuario';
 
 
 
@@ -61,7 +61,14 @@ try {
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
         $stmt->execute();
-
+        
+        if($id_cadastrado['id_usuario'] === 1){
+            $sql = "UPDATE tb_usuario SET permissao = 'Gerente' WHERE id_usuario = :id_cadastrado";
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
+            $stmt->execute();
+            
+        }
         
         if (empty($admin)) {
             // Cadastro por usuário comum
