@@ -18,11 +18,22 @@ if (!empty($_SESSION)) {
     // Verifica se o usuário existe e a senha está correta
     if ($user && password_verify($senha, $user['senha'])) {
       $_SESSION['usuario'] = $_SESSION['usuario'];
-      $_SESSION['id_usuario'] = $user['id_usuario'];
-      $_SESSION['admin'] = $user['admin'];
+      $_SESSION['id_usuario'] = $user['id_usuario'] ;
+      $_SESSION['permissao'] = $user['permissao'];
       unset($_SESSION['senha']);
-      header("Location: ../../index.php?msgSucesso=Login realizado com sucesso!");
-      exit;
+
+       if ($user['precisa_alterar_senha'] == 1) {
+          // Marcar na sessão que precisa alterar senha
+          $_SESSION['precisa_alterar_senha'] = 1;
+          $_SESSION['msg_aviso'] = 'Por motivos de segurança, você deve alterar sua senha antes de continuar.';
+          header('Location: /logintemplate/views/user/alterar_senha.php');
+          exit;
+      }else{
+          header("Location: ../../index.php?msgSucesso=Login realizado com sucesso!");
+          exit;
+      }
+    
+      
 
     } else {
         session_destroy();
