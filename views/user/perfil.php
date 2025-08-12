@@ -10,7 +10,14 @@ include '../../components/sidebar.php';
         <!-- Foto de perfil -->
         <div class="col-md-3 text-center">
             <div class="border p-3 bg-light rounded">
-                <img src="<?php echo $foto_usuario; ?>" alt="Avatar" class="img-fluid rounded" onerror="this.style.display='none'">
+
+                <?php
+                $foto = !empty($foto_usuario) && file_exists($_SERVER['DOCUMENT_ROOT'] . "/logintemplate/images/user/" . $foto_usuario) 
+                    ? $foto_usuario
+                    : 'padrao.png';
+                ?>
+                            
+                <img src="/logintemplate/images/user/<?= $foto_usuario; ?>" alt="Avatar" class="img-fluid rounded" onerror="this.style.display='none'">
                 <!-- <div class="mt-2">
                     <button class="btn btn-outline-danger btn-sm w-100">Excluir foto</button>
                 </div> -->

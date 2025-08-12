@@ -1,5 +1,8 @@
 
-<?php include '../../components/sidebar.php'; ?>
+<?php include '../../components/sidebar.php'; 
+unset($_SESSION['msg_erro']);
+unset($_SESSION['msg_sucesso']);
+?>
 
 <?php if ($dados_usuario['permissao']=== 'Admin'): ?>
 <div class="container py-5">
