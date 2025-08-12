@@ -21,7 +21,7 @@ $permissao = $_REQUEST['permissao'] ?? 'Usuario';
 
 
 $nome_final_arquivo = $usuario . '_' . $foto;
-$url_arquivo = '/logintemplate/images/user/' . $nome_final_arquivo;
+$url_arquivo =  $nome_final_arquivo;
 
 // var_dump($usuario);
 // var_dump($_SESSION['foto_nome']);
@@ -62,13 +62,13 @@ try {
         $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
         $stmt->execute();
         
-        if($id_cadastrado['id_usuario'] === 1){
-            $sql = "UPDATE tb_usuario SET permissao = 'Gerente' WHERE id_usuario = :id_cadastrado";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
-            $stmt->execute();
+        // if($id_cadastrado['id_usuario'] === 1){
+        //     $sql = "UPDATE tb_usuario SET permissao = 'Admin' WHERE id_usuario = :id_cadastrado";
+        //     $stmt = $pdo->prepare($sql);
+        //     $stmt->bindValue(':id_cadastrado', $id_cadastrado['id_usuario'], PDO::PARAM_STR);
+        //     $stmt->execute();
             
-        }
+        // }
         
         if (empty($admin)) {
             // Cadastro por usuário comum

@@ -1,8 +1,20 @@
 <?php
 require_once(__DIR__ . '/../banco.php');
-session_start();
 
-//var_dump($dados_usuario);
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Verificar se precisa alterar senha , se precisa ficar redirecionando o usuario para tela de alterar senha
+if (isset($_SESSION['precisa_alterar_senha']) && $_SESSION['precisa_alterar_senha'] === 1) {
+    // Permitir acesso apenas à página de alteração de senha
+    $arquivo_atual = basename($_SERVER['SCRIPT_NAME']);
+    if ($arquivo_atual !== 'alterar_senha.php') {
+        header('Location: /logintemplate/views/user/alterar_senha.php');
+        exit;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
