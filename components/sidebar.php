@@ -16,7 +16,8 @@ session_start();
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
     <!-- filepond -->
 <!-- CSS FilePond + Preview -->
@@ -32,6 +33,7 @@ session_start();
 <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.min.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.min.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.min.js"></script>
+   
 
 
     <style> 
@@ -209,13 +211,13 @@ session_start();
                                         $foto = $stmt->fetchColumn(); // Retorna só o valor da coluna
 
                                         // Caminho padrão se não houver foto no banco
-                                        $foto_usuario = !empty($foto) ? $foto : '/logintemplate/images/avatar.png';
+                                        $foto_usuario = !empty($foto) ? $foto : '/logintemplate/images/user/padrao.png';
                                     
                                     ?>
-
+                                
 
                                <a href="#" class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                                    <img src="<?php echo $foto_usuario; ?>" alt="Foto"
+                                    <img src="<?= '/logintemplate/images/user/' . $foto_usuario; ?>" alt="Foto"
                                         class="rounded-circle border border-2 border-light" width="40" height="40" style="object-fit: cover;">
                                     <span class="fw-semibold text-truncate" style="max-width: 140px;">
                                         <?php echo htmlspecialchars($dados_usuario['nome']); ?>
@@ -254,5 +256,9 @@ session_start();
    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
 </body>
 </html>

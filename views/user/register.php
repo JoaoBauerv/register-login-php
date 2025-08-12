@@ -66,8 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
   if (!$senha) {
     $errors['senha'] = REQUIRED_FIELD_ERROR;
-  } elseif (strlen($senha) < 4 || strlen($senha) > 10) {
-    $errors['senha'] = 'A senha precisa ser entre 4 e 10 caracteres!';
+  }elseif (strlen($senha) < 8) {
+    $errors['senha'] = 'A senha deve ter no mínimo 8 caracteres';
+  }elseif (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/', $senha)) {
+      $errors['senha'] = 'A senha deve conter ao menos: 1 maiúscula, 1 minúscula e 1 número';
   }
 
   if (!$senha2) {
@@ -104,7 +106,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       
       $url = $usuario . '_'  . $file_name;
 
-      $destino = 'C:/xampp/htdocs/logintemplate/images/user/' . $url ;
+      $uploadDir = realpath(__DIR__ . '/../../images/user/') . DIRECTORY_SEPARATOR;
+      $destino = $uploadDir . $url;
+
+      // $destino = 'C:/xampp/htdocs/logintemplate/images/user/' . $url ;
 
       if (move_uploaded_file($tmp_name, $destino)) {
           $_REQUEST['foto_nome'] = $url;
