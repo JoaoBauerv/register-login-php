@@ -3,9 +3,6 @@ session_start();
 require_once(__DIR__ . '/../../banco.php');
 require_once(__DIR__ . '/../funcoes.php');
 
-var_dump($_REQUEST);
-// echo '<br>';
-// var_dump($_SESSION);
 
 
 
@@ -17,11 +14,14 @@ $foto = $_REQUEST['foto_nome'] ?? '';
 $data = $_REQUEST['data'] ?? '';
 $admin = $_REQUEST['admin'] ?? '';
 $permissao = $_REQUEST['permissao'] ?? 'Usuario';
+$precisa_alterar_senha = 1;
 
 
 
-$nome_final_arquivo = $usuario . '_' . $foto;
-$url_arquivo =  $nome_final_arquivo;
+// $nome_final_arquivo = $usuario . '_' . $foto;
+// $url_arquivo =  $nome_final_arquivo;
+// var_dump($_REQUEST['foto_nome']);
+// exit;
 
 // var_dump($usuario);
 // var_dump($_SESSION['foto_nome']);
@@ -29,18 +29,19 @@ $url_arquivo =  $nome_final_arquivo;
 
 // Grava no banco
 try {
-    $sql = "INSERT INTO tb_usuario (nome, email, senha, foto, usuario, data_nascimento, permissao) 
-            VALUES (:nome, :email, :senha, :foto, :usuario, :data, :permissao)";
+    $sql = "INSERT INTO tb_usuario (nome, email, senha, foto, usuario, data_nascimento, permissao, precisa_alterar_senha) 
+            VALUES (:nome, :email, :senha, :foto, :usuario, :data, :permissao, :precisa_alterar_senha)";
     $stmt = $pdo->prepare($sql);
 
     $dados = array(
         ':nome' => $nomeCompleto,
         ':email' => $email,
         ':senha' => password_hash($senha, PASSWORD_DEFAULT),
-        ':foto' => $url_arquivo,
+        ':foto' => $foto,
         ':usuario' => $usuario,
         ':data' => $data,
-        ':permissao' => $permissao
+        ':permissao' => $permissao,
+        ':precisa_alterar_senha' => $precisa_alterar_senha
     );
 
     // Verifica se foi enviado via POST (admin logado cadastrando outro)
@@ -85,8 +86,19 @@ try {
         header("Location: ../../views/user/register.php?msgErro=Erro ao executar o cadastro.");
     }
 
-} catch (PDOException $e) {
-    header("Location: ../../views/user/register.php?msgErro=Erro de banco de dados.");
+} catch (Exception $e) {
+    // Rollback da transação
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
+    
+    // Log do erro real
+    $_SESSION['msg_erro'] = 'Erro ao cadastrar usuário' . $e->getMessage();
+    
+    // Mensagem genérica para o usuário
+    
+    header("Location: /logintemplate/views/user/register.php?");
+    exit;
 }
 
 exit;
