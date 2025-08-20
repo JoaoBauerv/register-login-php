@@ -3,6 +3,14 @@
 include '../../components/sidebar.php'; 
 unset($_SESSION['msg_erro']);
 unset($_SESSION['msg_sucesso']);
+
+$status = isset($_REQUEST['status']) ? $_REQUEST['status'] : '1';
+$status_permitidos = ['1', '0'];
+
+if(!in_array($status, $status_permitidos)){
+  $status = '1';
+}
+
 ?>
 
 <?php if ($dados_usuario['permissao']=== 'Admin'): ?>
@@ -40,8 +48,47 @@ unset($_SESSION['msg_sucesso']);
 
   <div class="card shadow-sm">
     <div class="card-body p-3">
+
+      <div class="row d-flex justify-content-end mb-3">
+          <div class="col-auto" >
+              <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="status" 
+                          id="status1" value="1" onchange="atualizarPagina(this.value)"
+                          <?= ($status === '1') ? 'checked' : '' ?>>
+                  <label class="form-check-label" for="status1">
+                      <i class="fa-solid fa-circle-check text-success me-1"></i>Ativo
+                  </label>
+              </div>
+          </div>
+          <div class="col-auto">
+              <div class="form-check mb-2">
+                  <input type="radio" class="form-check-input" name="status" 
+                          id="status0" value="0" onchange="atualizarPagina(this.value)"
+                          <?= ($status === '0') ? 'checked' : '' ?>>
+                  <label class="form-check-label" for="status0">
+                      <i class="fa-solid fa-circle-xmark text-danger me-1"></i>Inativo
+                  </label>
+              </div>
+          </div>
+      </div>
+
+      <script>
+        function atualizarPagina(valor) {
+            // Obtém a URL atual
+            const url = new URL(window.location);
+            
+            // Atualiza/adiciona o parâmetro
+            url.searchParams.set('status', valor);
+            
+            // Redireciona para a nova URL
+            window.location.href = url.toString();
+        }
+      </script>
+
+      
+      
       <?php
-        $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE status = 1 ORDER BY id_usuario");
+        $stmt = $pdo->prepare("SELECT * FROM tb_usuario WHERE status = $status ORDER BY id_usuario");
         $stmt->execute();
         $rowCount = $stmt->rowCount();
 
@@ -97,11 +144,13 @@ unset($_SESSION['msg_sucesso']);
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
 
+
+
 <script>
 $(document).ready(function() {
   $('#usuariosTable').DataTable({
     "language": {
-      "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
+      "url": "https://cdn.datatables.net/plug-ins/1.13.7/i18n/pt-BR.json"
     },
     "pageLength": 5, // Quantos registros por página
     "lengthMenu": [5, 10, 25, 50], // Opções de quantidade

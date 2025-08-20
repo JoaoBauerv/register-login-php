@@ -69,7 +69,7 @@ if(empty($_SESSION['usuario'])){
 
         <div class="mb-3">
           <label for="senha" class="form-label text-white">Senha</label>
-        <input type="text"  class="form-control <?php echo isset($errors['senha']) ? 'is-invalid' : '' ?>" id="senha" name="senha" >
+        <input type="password"  class="form-control <?php echo isset($errors['senha']) ? 'is-invalid' : '' ?>" id="senha" name="senha" >
           <div class="invalid-feedback"> 
         <?php echo $errors['senha'] ?>
           </div>
