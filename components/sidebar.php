@@ -10,7 +10,7 @@ if (isset($_SESSION['precisa_alterar_senha']) && $_SESSION['precisa_alterar_senh
     // Permitir acesso apenas à página de alteração de senha
     $arquivo_atual = basename($_SERVER['SCRIPT_NAME']);
     if ($arquivo_atual !== 'alterar_senha.php') {
-        header('Location: /logintemplate/views/user/alterar_senha.php');
+        header('Location: '. $url_base. '/views/user/alterar_senha.php');
         exit;
     }
 }
@@ -160,18 +160,18 @@ if (isset($_SESSION['precisa_alterar_senha']) && $_SESSION['precisa_alterar_senh
                         
                             <ul class="nav nav-pills flex-column mb-auto">
                                 <li class="nav-item mb-2">
-                                    <a href="/logintemplate/index.php" class="nav-link active text-white bg-primary rounded-3">
+                                    <a href="<?=$url_base?>/index.php" class="nav-link active text-white bg-primary rounded-3">
                                         <i class="bi bi-house-door me-2"></i> Inicio
                                     </a>
                                 </li>
 
                                 <!-- <li class="nav-item mb-2">
-                                    <a href="/logintemplate/index.php" class="nav-link active text-white bg-secondary rounded-3">
+                                    <a href="<?=$url_base?>/index.php" class="nav-link active text-white bg-secondary rounded-3">
                                         <i class="bi bi-shop me-2"></i> Produtos
                                     </a>
                                 </li>
                                 <li class="nav-item mb-2">
-                                    <a href="/logintemplate/index.php" class="nav-link active text-white bg-secondary rounded-3">
+                                    <a href="<?=$url_base?>/index.php" class="nav-link active text-white bg-secondary rounded-3">
                                         <i class="bi bi-list-columns-reverse me-2"></i> Relatórios
                                     </a>
                                 </li> -->
@@ -223,13 +223,13 @@ if (isset($_SESSION['precisa_alterar_senha']) && $_SESSION['precisa_alterar_senh
                                         $foto = $stmt->fetchColumn(); // Retorna só o valor da coluna
 
                                         // Caminho padrão se não houver foto no banco
-                                        $foto_usuario = !empty($foto) ? $foto : '/logintemplate/images/user/padrao.png';
+                                        $foto_usuario = !empty($foto) ? $foto : $url_base.'/images/user/padrao.png';
                                     
                                     ?>
                                 
 
                                <a href="#" class="d-flex align-items-center gap-2 text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
-                                    <img src="<?= '/logintemplate/images/user/' . $foto_usuario; ?>" alt="Foto"
+                                    <img src="<?=$url_base?>/images/user/<?= $foto_usuario ?>" alt="Foto"
                                         class="rounded-circle border border-2 border-light" width="40" height="40" style="object-fit: cover;">
                                     <span class="fw-semibold text-truncate" style="max-width: 140px;">
                                         <?php echo htmlspecialchars($dados_usuario['nome']); ?>
@@ -238,19 +238,19 @@ if (isset($_SESSION['precisa_alterar_senha']) && $_SESSION['precisa_alterar_senh
 
                                 <ul class="dropdown-menu dropdown-menu-dark shadow-sm mt-2">
                                     <?php if ($dados_usuario['permissao'] == 'Admin'){ ?>    
-                                        <li><a class="dropdown-item" href="/logintemplate/views/user/admin.php"><i class="bi bi-gear me-2"></i> Admin</a></li>
+                                        <li><a class="dropdown-item" href="<?=$url_base?>/views/user/admin.php"><i class="bi bi-gear me-2"></i> Admin</a></li>
                                     <?php } ?> 
                                     <li><a class="dropdown-item" href="#"><i class="bi bi-sliders me-2"></i> Settings</a></li>
-                                    <li><a class="dropdown-item" href="/logintemplate/views/user/perfil.php"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
+                                    <li><a class="dropdown-item" href="<?=$url_base?>/views/user/perfil.php"><i class="bi bi-person-circle me-2"></i> Profile</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href='/logintemplate/functions/user/logout.php'><i class="bi bi-box-arrow-right me-2"></i> Sign out</a></li>
+                                    <li><a class="dropdown-item text-danger" href='<?=$url_base?>/functions/user/logout.php'><i class="bi bi-box-arrow-right me-2"></i> Sign out</a></li>
                                 </ul>
                             </div>
 
                         <?php }else{ ?>
                             <div class="d-grid gap-2">
-                                <a href="/logintemplate/views/user/login.php" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
-                                <!--a href="/logintemplate/views/user/register.php" class="btn btn-warning btn-sm"><i class="bi bi-person-plus me-1"></i> Registrar-se</!--a -->
+                                <a href="<?=$url_base?>/views/user/login.php" class="btn btn-primary btn-sm"><i class="bi bi-box-arrow-in-right me-1"></i> Login</a>
+                                <!--a href="<?=$url_base?>/views/user/register.php" class="btn btn-warning btn-sm"><i class="bi bi-person-plus me-1"></i> Registrar-se</!--a -->
                             </div>
                         <?php }; ?>
                         

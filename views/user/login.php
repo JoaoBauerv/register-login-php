@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $_SESSION['usuario'] = $user;
     $_SESSION['senha'] = $senha;
     
-    header('Location: /logintemplate/functions/user/login.php');
+    header('Location: '.$url_base.'/functions/user/login.php');
     exit;
   }
 }
@@ -90,7 +90,7 @@ else{ ?>
     <div class="text-center bg-white p-5 shadow rounded" style="max-width: 500px;">
       <h4 class="text-danger mb-3"><i class="bi bi-shield-lock-fill"></i> Página Indisponível</h4>
       <p class="text-muted">Você já está logado!</p>
-      <a href="/logintemplate/index.php" class="btn btn-primary mt-3">Voltar</a>
+      <a href="<?=$url_base?>/index.php" class="btn btn-primary mt-3">Voltar</a>
     </div>
   </div>
 

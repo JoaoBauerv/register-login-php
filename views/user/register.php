@@ -9,7 +9,7 @@ session_start();
 // Verificação de permissão no início
 if ($_SESSION['permissao'] !== 'Admin') {
     // Redireciona para página de acesso negado ou index
-    header('Location: /logintemplate/index.php?error=access_denied');
+    header('Location: '.$url_base.'/index.php?error=access_denied');
     exit;
 }
 
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
 
         $query = http_build_query($dados);
-        header('Location: /logintemplate/functions/user/registrar.php?' . $query);
+        header('Location: '.$url_base.'/functions/user/registrar.php?' . $query);
         exit;
     }
 }

@@ -135,7 +135,7 @@ $success = $_SESSION['msg_sucesso'] ?? '';
             <?php endif; ?>
 
             <!-- Formulário -->
-            <form method="POST" action="/logintemplate/functions/user/editar.php" enctype="multipart/form-data" id="editUserForm" novalidate>
+            <form method="POST" action="<?=$url_base?>/functions/user/editar.php" enctype="multipart/form-data" id="editUserForm" novalidate>
                 <input type="hidden" name="id_usuario" value="<?= htmlspecialchars($usuario['id_usuario']) ?>">
                 <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?? bin2hex(random_bytes(32)) ?>">
 
@@ -151,11 +151,11 @@ $success = $_SESSION['msg_sucesso'] ?? '';
                                 <div class="avatar-container mb-3">
                                     
                             <?php
-                            $foto = !empty($usuario['foto']) && file_exists($_SERVER['DOCUMENT_ROOT'] . "/logintemplate/images/user/" . $usuario['foto']) 
+                            $foto = !empty($usuario['foto']) && file_exists($_SERVER['DOCUMENT_ROOT'] . $url_base."/images/user/" . $usuario['foto']) 
                                 ? $usuario['foto'] 
                                 : 'padrao.png';
                             ?>
-                            <img src="/logintemplate/images/user/<?= $foto ?>"
+                            <img src="<?=$url_base?>/images/user/<?= $foto ?>"
 
                                          alt="Foto do usuário" 
                                          class="rounded avatar-preview"
@@ -488,7 +488,7 @@ $success = $_SESSION['msg_sucesso'] ?? '';
                                         </small>
                                     </div>
                                     <div>
-                                        <a href="/logintemplate/views/user/admin.php" class="btn btn-outline-secondary me-2">
+                                        <a href="<?=$url_base?>/views/user/admin.php" class="btn btn-outline-secondary me-2">
                                             <i class="fas fa-times me-1"></i>Cancelar
                                         </a>
                                         <button type="submit" class="btn btn-primary">
