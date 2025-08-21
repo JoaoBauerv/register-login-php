@@ -97,7 +97,7 @@ try {
     
     // Mensagem genérica para o usuário
     
-    header("Location: /logintemplate/views/user/register.php?");
+    header("Location: $url_base/views/user/register.php?");
     exit;
 }
 

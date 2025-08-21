@@ -19,7 +19,6 @@ $stmt->bindValue(':descricao', $descricao, PDO::PARAM_STR);
 $stmt->bindValue(':tipo', $tipo, PDO::PARAM_STR);
 $stmt->bindValue(':data', date('Y-m-d H:i:s'), PDO::PARAM_STR);
 $stmt->execute();
-
 }
 
 

@@ -12,12 +12,12 @@ include '../../components/sidebar.php';
             <div class="border p-3 bg-light rounded">
 
                 <?php
-                $foto = !empty($foto_usuario) && file_exists($_SERVER['DOCUMENT_ROOT'] . "/logintemplate/images/user/" . $foto_usuario) 
+                $foto = !empty($foto_usuario) && file_exists($_SERVER['DOCUMENT_ROOT'] . $url_base."/images/user/" . $foto_usuario) 
                     ? $foto_usuario
                     : 'padrao.png';
                 ?>
                             
-                <img src="/logintemplate/images/user/<?= $foto_usuario; ?>" alt="Avatar" class="img-fluid rounded" onerror="this.style.display='none'">
+                <img src="<?=$url_base?>/images/user/<?= $foto_usuario; ?>" alt="Avatar" class="img-fluid rounded" onerror="this.style.display='none'">
                 <!-- <div class="mt-2">
                     <button class="btn btn-outline-danger btn-sm w-100">Excluir foto</button>
                 </div> -->

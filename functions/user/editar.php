@@ -10,7 +10,7 @@ unset($_SESSION['msg_sucesso']);
 // Verificar se foi enviado o ID
 if (empty($_POST['id_usuario'])) {
     $_SESSION['msg'] = 'ID de usuário não especificado.';
-    header('Location: /logintemplate/views/user/admin.php');
+    header('Location: '.$url_base.'/views/user/admin.php');
     exit;
 }
 
@@ -169,18 +169,11 @@ try {
     $pdo->commit();
     
     // Registrar movimentação
-    if (function_exists('registraMovimentacao')) {
-        registraMovimentacao(
-            $_SESSION['id_usuario'], 
-            $id, 
-            'Usuário editado por admin: ' . $_SESSION['id_usuario'], 
-            'Usuario editado', 
-            $pdo
-        );
-    }
     
+    registraMovimentacao($_SESSION['id_usuario'], $id, 'Usuário editado por admin: ' . $_SESSION['id_usuario'], 'Usuario editado', $pdo);
+    exit;
     $_SESSION['msg_sucesso'] = 'Usuário editado com sucesso!';
-    header("Location: /logintemplate/views/user/edit.php?id=$id");
+    header("Location: $url_base/views/user/edit.php?id=$id");
     exit;
     
 } catch (Exception $e) {
@@ -194,7 +187,7 @@ try {
     
     // Mensagem genérica para o usuário
     
-    header("Location: /logintemplate/views/user/edit.php?id=$id");
+    header("Location: $url_base/views/user/edit.php?id=$id");
     exit;
 }
 ?>

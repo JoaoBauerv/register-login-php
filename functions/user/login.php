@@ -26,7 +26,7 @@ if (!empty($_SESSION)) {
           // Marcar na sessão que precisa alterar senha
           $_SESSION['precisa_alterar_senha'] = 1;
           $_SESSION['msg_aviso'] = 'Por motivos de segurança, você deve alterar sua senha antes de continuar.';
-          header('Location: /logintemplate/views/user/alterar_senha.php');
+          header('Location: '.$url_base.'/views/user/alterar_senha.php');
           exit;
       }else{
           header("Location: ../../index.php?msgSucesso=Login realizado com sucesso!");

@@ -19,7 +19,7 @@ if(!in_array($status, $status_permitidos)){
   
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2 class="fw-semibold text-dark">👤 Painel de Administração</h2>
-    <a href="/logintemplate/views/user/register.php" class="btn btn-success shadow-sm">
+    <a href="<?=$url_base?>/views/user/register.php" class="btn btn-success shadow-sm">
       <i class="bi bi-person-plus-fill me-1"></i> Novo Usuário
     </a>
   </div>
@@ -111,15 +111,15 @@ if(!in_array($status, $status_permitidos)){
               <td><?= htmlspecialchars($row["usuario"]) ?></td>
               <td><?= htmlspecialchars($row["nome"]) ?></td>
               <td class="text-center">
-                <a href="/logintemplate/views/user/edit.php?id=<?= $row["id_usuario"] ?>" 
+                <a href="<?=$url_base?>/views/user/edit.php?id=<?= $row["id_usuario"] ?>" 
                    class="btn btn-sm btn-warning me-1" title="Editar">
                   <i class="bi bi-pencil"></i>
                 </a>
-                <a href="/logintemplate/functions/user/resetarsenha.php?id=<?= $row["id_usuario"] ?>" 
+                <a href="<?=$url_base?>/functions/user/resetarsenha.php?id=<?= $row["id_usuario"] ?>" 
                    class="btn btn-sm btn-primary me-1" title="Resetar Senha">
                   <i class="bi bi-key"></i>
                 </a>
-                <!-- <form action="/logintemplate/functions/user/deletar.php?id=<?= $row["id_usuario"] ?>" 
+                <!-- <form action="<?=$url_base?>/functions/user/deletar.php?id=<?= $row["id_usuario"] ?>" 
                       method="post" class="d-inline" onsubmit="return confirm('Deseja realmente excluir este usuário?')">
                   <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
                     <i class="bi bi-trash3"></i>
@@ -166,7 +166,7 @@ $(document).ready(function() {
   <div class="text-center bg-white p-5 shadow rounded" style="max-width: 500px;">
     <h4 class="text-danger mb-3"><i class="bi bi-shield-lock-fill"></i> Acesso Negado</h4>
     <p class="text-muted">Essa página não está disponível para o seu usuário.</p>
-    <a href="/logintemplate/index.php" class="btn btn-primary mt-3">Voltar</a>
+    <a href="<?=$url_base?>/index.php" class="btn btn-primary mt-3">Voltar</a>
   </div>
 </div>
 <?php endif; ?>
