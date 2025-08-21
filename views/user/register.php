@@ -4,10 +4,12 @@
 require __DIR__ . '/../../functions/funcoes.php';
 require __DIR__ . '/../../banco.php';
 
+
 session_start();
 
 // Verificação de permissão no início
 if ($_SESSION['permissao'] !== 'Admin') {
+
     // Redireciona para página de acesso negado ou index
     header('Location: '.$url_base.'/index.php?error=access_denied');
     exit;
@@ -57,11 +59,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($nome) < 3 || strlen($nome) > 16) {
         $errors['nome'] = 'O nome precisa ser entre 3 e 16 caracteres!';
     }
-
+  
     if (!$sobrenome) {
         $errors['sobrenome'] = REQUIRED_FIELD_ERROR;
     } elseif (strlen($sobrenome) < 3 || strlen($sobrenome) > 16) {
         $errors['sobrenome'] = 'O sobrenome precisa ser entre 3 e 16 caracteres!';
+
     }
 
     if (!$data) {
@@ -169,6 +172,7 @@ include '../../components/sidebar.php';
                     </div>
                 </div>
 
+
                 <div class="col mb-3">
                     <label for="sobrenome" class="form-label text-white">Sobrenome</label>
                     <input type="text" class="form-control <?php echo isset($errors['sobrenome']) ? 'is-invalid' : '' ?>" 
@@ -176,10 +180,12 @@ include '../../components/sidebar.php';
                     <div class="invalid-feedback"> 
                         <?php echo $errors['sobrenome'] ?? '' ?>
                     </div>
+
                 </div>
             </div>
 
             <div class="mb-3">
+
                 <label for="email" class="form-label text-white">Email</label>
                 <input type="email" class="form-control <?php echo isset($errors['email']) ? 'is-invalid' : '' ?>" 
                        id="email" name="email" value="<?php echo $email ?>" >

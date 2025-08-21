@@ -17,6 +17,7 @@ $permissao = $_REQUEST['permissao'] ?? 'Usuario';
 $precisa_alterar_senha = 1;
 
 
+
 // $nome_final_arquivo = $usuario . '_' . $foto;
 // $url_arquivo =  $nome_final_arquivo;
 // var_dump($_REQUEST['foto_nome']);
