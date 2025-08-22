@@ -1,8 +1,8 @@
 <!-- Sidebar -->
 <?php 
-
 require __DIR__ . '/../../functions/funcoes.php';
 require __DIR__ . '/../../banco.php';
+
 
 
 session_start();
@@ -11,7 +11,7 @@ session_start();
 if ($_SESSION['permissao'] !== 'Admin') {
 
     // Redireciona para página de acesso negado ou index
-    header('Location: '.$url_base.'/index.php?error=access_denied');
+    header('Location: '.$url_base.'/index2.php?error=access_denied');
     exit;
 }
 
@@ -149,6 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 include '../../components/sidebar.php';
+require_once (__DIR__ . '/../../components/middleware.php');
 
 ?>
 

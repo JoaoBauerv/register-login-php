@@ -1,4 +1,6 @@
 <?php 
+require '../../banco.php';
+
 function post_data($field){
   $_POST[$field] ??= '';
   
@@ -92,7 +94,7 @@ else{ ?>
     <div class="text-center bg-white p-5 shadow rounded" style="max-width: 500px;">
       <h4 class="text-danger mb-3"><i class="bi bi-shield-lock-fill"></i> Página Indisponível</h4>
       <p class="text-muted">Você já está logado!</p>
-      <a href="<?=$url_base?>/index.php" class="btn btn-primary mt-3">Voltar</a>
+      <a href="<?=$url_base?>/index2.php" class="btn btn-primary mt-3">Voltar</a>
     </div>
   </div>
 
