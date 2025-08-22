@@ -1,6 +1,7 @@
 
 <?php 
 include '../../components/sidebar.php'; 
+require_once (__DIR__ . '/../../components/middleware.php');
 unset($_SESSION['msg_erro']);
 unset($_SESSION['msg_sucesso']);
 
@@ -166,7 +167,7 @@ $(document).ready(function() {
   <div class="text-center bg-white p-5 shadow rounded" style="max-width: 500px;">
     <h4 class="text-danger mb-3"><i class="bi bi-shield-lock-fill"></i> Acesso Negado</h4>
     <p class="text-muted">Essa página não está disponível para o seu usuário.</p>
-    <a href="<?=$url_base?>/index.php" class="btn btn-primary mt-3">Voltar</a>
+    <a href="<?=$url_base?>/index2.php" class="btn btn-primary mt-3">Voltar</a>
   </div>
 </div>
 <?php endif; ?>

@@ -202,7 +202,7 @@ if (!empty($_REQUEST['id'])) {
         $usuario_reset = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$usuario_reset) {
-            header("Location: ../../index.php?msgErro=Usuário não encontrado!");
+            header("Location: ../../index2.php?msgErro=Usuário não encontrado!");
             exit;
         }
 
@@ -251,6 +251,6 @@ if (!empty($_REQUEST['id'])) {
     }
 
 } else {
-    header("Location: ../../index.php?msgErro=ID do usuário não fornecido!");
+    header("Location: ../../index2.php?msgErro=ID do usuário não fornecido!");
 }
 ?>

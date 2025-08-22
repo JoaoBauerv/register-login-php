@@ -160,18 +160,25 @@ if (isset($_SESSION['precisa_alterar_senha']) && $_SESSION['precisa_alterar_senh
                         
                             <ul class="nav nav-pills flex-column mb-auto">
                                 <li class="nav-item mb-2">
-                                    <a href="<?=$url_base?>/index.php" class="nav-link active text-white bg-primary rounded-3">
+                                    <?php 
+                                    if(!empty($_SESSION['logado'])){
+                                        $index = 'index2';
+                                    }else{
+                                        $index = 'index';
+                                    }
+                                    ?>
+                                    <a href="<?=$url_base?>/<?=$index?>.php" class="nav-link active text-white bg-primary rounded-3">
                                         <i class="bi bi-house-door me-2"></i> Inicio
                                     </a>
                                 </li>
 
                                 <!-- <li class="nav-item mb-2">
-                                    <a href="<?=$url_base?>/index.php" class="nav-link active text-white bg-secondary rounded-3">
+                                    <a href="<?=$url_base?>/index2.php" class="nav-link active text-white bg-secondary rounded-3">
                                         <i class="bi bi-shop me-2"></i> Produtos
                                     </a>
                                 </li>
                                 <li class="nav-item mb-2">
-                                    <a href="<?=$url_base?>/index.php" class="nav-link active text-white bg-secondary rounded-3">
+                                    <a href="<?=$url_base?>/index2.php" class="nav-link active text-white bg-secondary rounded-3">
                                         <i class="bi bi-list-columns-reverse me-2"></i> Relatórios
                                     </a>
                                 </li> -->

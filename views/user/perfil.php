@@ -1,5 +1,6 @@
 <?php 
 include '../../components/sidebar.php'; 
+require_once (__DIR__ . '/../../components/middleware.php');
 // Supondo que os dados do usuário estejam em $_SESSION['usuario']
 ?>
 

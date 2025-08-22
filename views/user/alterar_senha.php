@@ -5,7 +5,7 @@ require_once(__DIR__ . '/../../functions/funcoes.php');
 
 // Verificar se realmente precisa alterar a senha
 if (!isset($_SESSION['precisa_alterar_senha']) || !$_SESSION['precisa_alterar_senha']) {
-    header('Location: '.$url_base.'/index.php');
+    header('Location: '.$url_base.'/index2.php');
     exit;
 }
 
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['msg_sucesso'] = 'Senha alterada com sucesso!';
                 
                
-                header('Location: '.$url_base.'/index.php');
+                header('Location: '.$url_base.'/index2.php');
                 
                 exit;
             } else {

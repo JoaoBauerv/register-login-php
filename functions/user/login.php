@@ -20,6 +20,7 @@ if (!empty($_SESSION)) {
       $_SESSION['usuario'] = $_SESSION['usuario'];
       $_SESSION['id_usuario'] = $user['id_usuario'] ;
       $_SESSION['permissao'] = $user['permissao'];
+      $_SESSION['logado'] = 1;
       unset($_SESSION['senha']);
 
        if ($user['precisa_alterar_senha'] == 1) {
@@ -29,7 +30,7 @@ if (!empty($_SESSION)) {
           header('Location: '.$url_base.'/views/user/alterar_senha.php');
           exit;
       }else{
-          header("Location: ../../index.php?msgSucesso=Login realizado com sucesso!");
+          header("Location: ../../index2.php?msgSucesso=Login realizado com sucesso!");
           exit;
       }
     
